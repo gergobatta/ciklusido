@@ -1,173 +1,359 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ciklusidő</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
 
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Lato:wght@300;400;700&display=swap');
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-  .page-wrapper {
-    display: flex;
-    min-height: 600px;
-    background: #FADADD;
-    border-radius: 16px;
-    overflow: hidden;
-    font-family: 'Lato', sans-serif;
-    position: relative;
-  }
+    html, body {
+      height: 100%;
+      font-family: 'Lato', sans-serif;
+    }
 
-  .sidebar {
-    width: 220px;
-    min-width: 220px;
-    background: rgba(255,255,255,0.45);
-    backdrop-filter: blur(8px);
-    border-right: 0.5px solid rgba(210,130,140,0.25);
-    display: flex;
-    flex-direction: column;
-    padding: 2rem 0;
-    gap: 4px;
-  }
+    body {
+      background: #FADADD;
+      display: flex;
+      flex-direction: column;
+    }
 
-  .sidebar-logo {
-    font-family: 'Playfair Display', serif;
-    font-size: 15px;
-    font-weight: 600;
-    color: #8B4A55;
-    padding: 0 1.5rem 1.5rem;
-    border-bottom: 0.5px solid rgba(210,130,140,0.2);
-    margin-bottom: 0.5rem;
-    letter-spacing: 0.03em;
-  }
+    /* ─────────────────────────────────────────
+       LAPTOP LAYOUT (sidebar bal oldalt)
+    ───────────────────────────────────────── */
+    .page-wrapper {
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
 
-  .nav-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 1.5rem;
-    font-size: 14px;
-    font-weight: 400;
-    color: #7A3B47;
-    cursor: pointer;
-    border-radius: 0;
-    transition: background 0.15s, color 0.15s;
-    text-decoration: none;
-    border-left: 2.5px solid transparent;
-  }
+    .sidebar {
+      width: 230px;
+      min-width: 230px;
+      background: rgba(255, 255, 255, 0.45);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-right: 0.5px solid rgba(210, 130, 140, 0.25);
+      display: flex;
+      flex-direction: column;
+      padding: 2rem 0;
+      gap: 4px;
+    }
 
-  .nav-item:hover {
-    background: rgba(210,130,140,0.15);
-    color: #5C1F2E;
-    border-left-color: #C97080;
-  }
+    .sidebar-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: #8B4A55;
+      padding: 0 1.5rem 1.5rem;
+      border-bottom: 0.5px solid rgba(210, 130, 140, 0.2);
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.03em;
+    }
 
-  .nav-item.active {
-    background: rgba(210,130,140,0.22);
-    color: #5C1F2E;
-    font-weight: 700;
-    border-left-color: #B5505F;
-  }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 1.5rem;
+      font-size: 14px;
+      font-weight: 400;
+      color: #7A3B47;
+      cursor: pointer;
+      border-left: 2.5px solid transparent;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+      text-decoration: none;
+    }
 
-  .nav-item i {
-    font-size: 17px;
-    opacity: 0.8;
-  }
+    .nav-item:hover {
+      background: rgba(210, 130, 140, 0.15);
+      color: #5C1F2E;
+      border-left-color: #C97080;
+    }
 
-  .main-content {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 12px;
-    position: relative;
-    overflow: hidden;
-  }
+    .nav-item.active {
+      background: rgba(210, 130, 140, 0.22);
+      color: #5C1F2E;
+      font-weight: 700;
+      border-left-color: #B5505F;
+    }
 
-  .bg-deco {
-    position: absolute;
-    border-radius: 50%;
-    opacity: 0.18;
-    pointer-events: none;
-  }
+    .nav-item i {
+      font-size: 18px;
+      opacity: 0.85;
+    }
 
-  .bg-deco-1 {
-    width: 340px;
-    height: 340px;
-    background: #F4A0AE;
-    top: -80px;
-    right: -60px;
-  }
+    /* ─────────────────────────────────────────
+       MAIN CONTENT
+    ───────────────────────────────────────── */
+    .main-content {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 14px;
+      position: relative;
+      overflow: hidden;
+    }
 
-  .bg-deco-2 {
-    width: 200px;
-    height: 200px;
-    background: #E07080;
-    bottom: -60px;
-    left: 40px;
-  }
+    .bg-deco {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.18;
+      pointer-events: none;
+    }
 
-  .center-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 52px;
-    font-weight: 600;
-    color: #5C1F2E;
-    text-align: center;
-    letter-spacing: 0.02em;
-    line-height: 1.15;
-    z-index: 1;
-  }
+    .bg-deco-1 {
+      width: 420px;
+      height: 420px;
+      background: #F4A0AE;
+      top: -100px;
+      right: -80px;
+    }
 
-  .center-subtitle {
-    font-size: 14px;
-    color: #9B5A65;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    font-weight: 300;
-    z-index: 1;
-  }
+    .bg-deco-2 {
+      width: 260px;
+      height: 260px;
+      background: #E07080;
+      bottom: -80px;
+      left: 60px;
+    }
 
-  .divider-line {
-    width: 60px;
-    height: 1.5px;
-    background: linear-gradient(90deg, transparent, #C97080, transparent);
-    z-index: 1;
-  }
-</style>
+    .center-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 64px;
+      font-weight: 600;
+      color: #5C1F2E;
+      text-align: center;
+      letter-spacing: 0.02em;
+      line-height: 1.15;
+      z-index: 1;
+    }
 
-<div class="page-wrapper">
-  <nav class="sidebar" aria-label="Főmenü">
-    <div class="sidebar-logo">⬡ Ciklusidő</div>
-    <a class="nav-item active" href="#" onclick="return false;">
-      <i class="ti ti-home" aria-hidden="true"></i> Kezdőlap
-    </a>
-    <a class="nav-item" href="#" onclick="return false;">
-      <i class="ti ti-chart-bar" aria-hidden="true"></i> Áttekintés
-    </a>
-    <a class="nav-item" href="#" onclick="return false;">
-      <i class="ti ti-clock" aria-hidden="true"></i> Ciklusok
-    </a>
-    <a class="nav-item" href="#" onclick="return false;">
-      <i class="ti ti-calendar" aria-hidden="true"></i> Naptár
-    </a>
-    <a class="nav-item" href="#" onclick="return false;">
-      <i class="ti ti-file" aria-hidden="true"></i> Riportok
-    </a>
-    <a class="nav-item" href="#" onclick="return false;">
-      <i class="ti ti-settings" aria-hidden="true"></i> Beállítások
-    </a>
-  </nav>
+    .center-subtitle {
+      font-size: 14px;
+      color: #9B5A65;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 300;
+      z-index: 1;
+    }
 
-  <main class="main-content">
-    <div class="bg-deco bg-deco-1"></div>
-    <div class="bg-deco bg-deco-2"></div>
-    <div class="divider-line"></div>
-    <h1 class="center-title">Ciklusidő</h1>
-    <p class="center-subtitle">Kövesd nyomon a folyamataidat</p>
-    <div class="divider-line"></div>
-  </main>
-</div>
+    .divider-line {
+      width: 64px;
+      height: 1.5px;
+      background: linear-gradient(90deg, transparent, #C97080, transparent);
+      z-index: 1;
+    }
 
-<script>
-  document.querySelectorAll('.nav-item').forEach(item => {
-    item.addEventListener('click', function(e) {
-      document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-      this.classList.add('active');
+    /* ─────────────────────────────────────────
+       MOBIL LAYOUT
+    ───────────────────────────────────────── */
+    .bottom-nav {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        overflow: hidden;
+      }
+
+      .page-wrapper {
+        flex-direction: column;
+        height: 100dvh;
+      }
+
+      .sidebar {
+        display: none;
+      }
+
+      /* Felső fejléc mobilon */
+      .mobile-header {
+        display: flex !important;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 20px 12px;
+        background: rgba(255, 255, 255, 0.5);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-bottom: 0.5px solid rgba(210, 130, 140, 0.25);
+      }
+
+      .mobile-header-logo {
+        font-family: 'Playfair Display', serif;
+        font-size: 18px;
+        font-weight: 600;
+        color: #8B4A55;
+        letter-spacing: 0.03em;
+      }
+
+      .mobile-header i {
+        font-size: 22px;
+        color: #9B6070;
+      }
+
+      .main-content {
+        flex: 1;
+        padding-bottom: 0;
+      }
+
+      .center-title {
+        font-size: 42px;
+      }
+
+      .bg-deco-1 {
+        width: 260px;
+        height: 260px;
+        top: -60px;
+        right: -50px;
+      }
+
+      .bg-deco-2 {
+        width: 160px;
+        height: 160px;
+        bottom: -40px;
+        left: 20px;
+      }
+
+      /* Alsó navigáció mobilon */
+      .bottom-nav {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.55);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-top: 0.5px solid rgba(210, 130, 140, 0.25);
+        padding: 8px 0 max(10px, env(safe-area-inset-bottom));
+      }
+
+      .bottom-nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 3px;
+        padding: 4px 12px;
+        color: #9B6070;
+        font-size: 10px;
+        font-family: 'Lato', sans-serif;
+        border-radius: 8px;
+        cursor: pointer;
+        background: transparent;
+        border: none;
+        transition: color 0.15s, background 0.15s;
+        text-decoration: none;
+      }
+
+      .bottom-nav-item:hover {
+        color: #5C1F2E;
+        background: rgba(210, 130, 140, 0.15);
+      }
+
+      .bottom-nav-item.active {
+        color: #5C1F2E;
+        font-weight: 700;
+      }
+
+      .bottom-nav-item i {
+        font-size: 24px;
+      }
+    }
+
+    /* Desktop: fejléc rejtve */
+    .mobile-header {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-wrapper">
+
+    <!-- Mobil fejléc -->
+    <header class="mobile-header">
+      <span class="mobile-header-logo">⬡ Ciklusidő</span>
+      <i class="ti ti-bell" aria-hidden="true"></i>
+    </header>
+
+    <!-- Bal oldali menü (laptop) -->
+    <nav class="sidebar" aria-label="Főmenü">
+      <div class="sidebar-logo">⬡ Ciklusidő</div>
+      <a class="nav-item active" href="#" data-page="home">
+        <i class="ti ti-home" aria-hidden="true"></i> Kezdőlap
+      </a>
+      <a class="nav-item" href="#" data-page="overview">
+        <i class="ti ti-chart-bar" aria-hidden="true"></i> Áttekintés
+      </a>
+      <a class="nav-item" href="#" data-page="cycles">
+        <i class="ti ti-clock" aria-hidden="true"></i> Ciklusok
+      </a>
+      <a class="nav-item" href="#" data-page="calendar">
+        <i class="ti ti-calendar" aria-hidden="true"></i> Naptár
+      </a>
+      <a class="nav-item" href="#" data-page="reports">
+        <i class="ti ti-file" aria-hidden="true"></i> Riportok
+      </a>
+      <a class="nav-item" href="#" data-page="settings">
+        <i class="ti ti-settings" aria-hidden="true"></i> Beállítások
+      </a>
+    </nav>
+
+    <!-- Fő tartalom -->
+    <main class="main-content">
+      <div class="bg-deco bg-deco-1" aria-hidden="true"></div>
+      <div class="bg-deco bg-deco-2" aria-hidden="true"></div>
+      <div class="divider-line" aria-hidden="true"></div>
+      <h1 class="center-title">Ciklusidő</h1>
+      <p class="center-subtitle">Kövesd nyomon a folyamataidat</p>
+      <div class="divider-line" aria-hidden="true"></div>
+    </main>
+
+    <!-- Alsó navigáció (mobil) -->
+    <nav class="bottom-nav" aria-label="Alsó navigáció">
+      <a class="bottom-nav-item active" href="#" data-page="home">
+        <i class="ti ti-home" aria-hidden="true"></i> Kezdőlap
+      </a>
+      <a class="bottom-nav-item" href="#" data-page="overview">
+        <i class="ti ti-chart-bar" aria-hidden="true"></i> Áttekintés
+      </a>
+      <a class="bottom-nav-item" href="#" data-page="cycles">
+        <i class="ti ti-clock" aria-hidden="true"></i> Ciklusok
+      </a>
+      <a class="bottom-nav-item" href="#" data-page="calendar">
+        <i class="ti ti-calendar" aria-hidden="true"></i> Naptár
+      </a>
+      <a class="bottom-nav-item" href="#" data-page="settings">
+        <i class="ti ti-settings" aria-hidden="true"></i> Beállítások
+      </a>
+    </nav>
+
+  </div>
+
+  <script>
+    // Aktív menüpont kezelése
+    function setActive(page) {
+      document.querySelectorAll('.nav-item, .bottom-nav-item').forEach(item => {
+        item.classList.toggle('active', item.dataset.page === page);
+      });
+    }
+
+    document.querySelectorAll('.nav-item, .bottom-nav-item').forEach(item => {
+      item.addEventListener('click', function(e) {
+        e.preventDefault();
+        setActive(this.dataset.page);
+      });
     });
-  });
-</script>
+  </script>
+
+</body>
+</html>
