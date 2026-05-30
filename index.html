@@ -2,6 +2,12 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Lato:wght@300;400;700&display=swap');
 
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body-sim {
+    display: block;
+  }
+
   .page-wrapper {
     display: flex;
     min-height: 600px;
@@ -12,11 +18,11 @@
     position: relative;
   }
 
+  /* ── SIDEBAR (desktop) ── */
   .sidebar {
     width: 220px;
     min-width: 220px;
     background: rgba(255,255,255,0.45);
-    backdrop-filter: blur(8px);
     border-right: 0.5px solid rgba(210,130,140,0.25);
     display: flex;
     flex-direction: column;
@@ -44,30 +50,17 @@
     font-weight: 400;
     color: #7A3B47;
     cursor: pointer;
-    border-radius: 0;
+    border-left: 2.5px solid transparent;
     transition: background 0.15s, color 0.15s;
     text-decoration: none;
-    border-left: 2.5px solid transparent;
   }
 
-  .nav-item:hover {
-    background: rgba(210,130,140,0.15);
-    color: #5C1F2E;
-    border-left-color: #C97080;
-  }
+  .nav-item:hover { background: rgba(210,130,140,0.15); color: #5C1F2E; border-left-color: #C97080; }
+  .nav-item.active { background: rgba(210,130,140,0.22); color: #5C1F2E; font-weight: 700; border-left-color: #B5505F; }
+  .nav-item i { font-size: 17px; opacity: 0.8; }
+  .nav-label { display: inline; }
 
-  .nav-item.active {
-    background: rgba(210,130,140,0.22);
-    color: #5C1F2E;
-    font-weight: 700;
-    border-left-color: #B5505F;
-  }
-
-  .nav-item i {
-    font-size: 17px;
-    opacity: 0.8;
-  }
-
+  /* ── MAIN ── */
   .main-content {
     flex: 1;
     display: flex;
@@ -79,28 +72,9 @@
     overflow: hidden;
   }
 
-  .bg-deco {
-    position: absolute;
-    border-radius: 50%;
-    opacity: 0.18;
-    pointer-events: none;
-  }
-
-  .bg-deco-1 {
-    width: 340px;
-    height: 340px;
-    background: #F4A0AE;
-    top: -80px;
-    right: -60px;
-  }
-
-  .bg-deco-2 {
-    width: 200px;
-    height: 200px;
-    background: #E07080;
-    bottom: -60px;
-    left: 40px;
-  }
+  .bg-deco { position: absolute; border-radius: 50%; opacity: 0.18; pointer-events: none; }
+  .bg-deco-1 { width: 340px; height: 340px; background: #F4A0AE; top: -80px; right: -60px; }
+  .bg-deco-2 { width: 200px; height: 200px; background: #E07080; bottom: -60px; left: 40px; }
 
   .center-title {
     font-family: 'Playfair Display', serif;
@@ -122,50 +96,188 @@
     z-index: 1;
   }
 
-  .divider-line {
-    width: 60px;
-    height: 1.5px;
-    background: linear-gradient(90deg, transparent, #C97080, transparent);
-    z-index: 1;
+  .divider-line { width: 60px; height: 1.5px; background: linear-gradient(90deg, transparent, #C97080, transparent); z-index: 1; }
+
+  /* ── BOTTOM NAV (mobile) ── */
+  .bottom-nav { display: none; }
+
+  /* ── PREVIEW TOGGLE ── */
+  .preview-toggle {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+    justify-content: center;
   }
+
+  .toggle-btn {
+    padding: 7px 18px;
+    border-radius: 8px;
+    border: 0.5px solid rgba(180,100,115,0.35);
+    background: transparent;
+    color: #8B4A55;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: 'Lato', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.15s;
+  }
+
+  .toggle-btn.active {
+    background: rgba(210,130,140,0.22);
+    font-weight: 700;
+    border-color: #B5505F;
+    color: #5C1F2E;
+  }
+
+  /* ── MOBILE SIMULATION ── */
+  .mobile-frame {
+    display: none;
+    width: 320px;
+    margin: 0 auto;
+    border-radius: 32px;
+    overflow: hidden;
+    border: 6px solid rgba(180,100,115,0.35);
+    box-shadow: 0 8px 32px rgba(140,60,80,0.12);
+    flex-direction: column;
+    background: #FADADD;
+    min-height: 580px;
+    position: relative;
+  }
+
+  .mobile-header {
+    background: rgba(255,255,255,0.5);
+    border-bottom: 0.5px solid rgba(210,130,140,0.25);
+    padding: 14px 20px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .mobile-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #8B4A55;
+  }
+
+  .mobile-main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 420px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .mobile-main .center-title { font-size: 38px; }
+
+  .mobile-bottom-nav {
+    background: rgba(255,255,255,0.55);
+    border-top: 0.5px solid rgba(210,130,140,0.25);
+    display: flex;
+    justify-content: space-around;
+    padding: 8px 0 10px;
+  }
+
+  .m-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 4px 10px;
+    cursor: pointer;
+    color: #9B6070;
+    font-size: 10px;
+    font-family: 'Lato', sans-serif;
+    border-radius: 8px;
+    transition: color 0.15s, background 0.15s;
+    border: none;
+    background: transparent;
+  }
+
+  .m-nav-item.active { color: #5C1F2E; font-weight: 700; }
+  .m-nav-item i { font-size: 22px; }
 </style>
 
-<div class="page-wrapper">
-  <nav class="sidebar" aria-label="Főmenü">
-    <div class="sidebar-logo">⬡ Ciklusidő</div>
-    <a class="nav-item active" href="#" onclick="return false;">
-      <i class="ti ti-home" aria-hidden="true"></i> Kezdőlap
-    </a>
-    <a class="nav-item" href="#" onclick="return false;">
-      <i class="ti ti-chart-bar" aria-hidden="true"></i> Áttekintés
-    </a>
-    <a class="nav-item" href="#" onclick="return false;">
-      <i class="ti ti-clock" aria-hidden="true"></i> Ciklusok
-    </a>
-    <a class="nav-item" href="#" onclick="return false;">
-      <i class="ti ti-calendar" aria-hidden="true"></i> Naptár
-    </a>
-    <a class="nav-item" href="#" onclick="return false;">
-      <i class="ti ti-file" aria-hidden="true"></i> Riportok
-    </a>
-    <a class="nav-item" href="#" onclick="return false;">
-      <i class="ti ti-settings" aria-hidden="true"></i> Beállítások
-    </a>
-  </nav>
+<h2 class="sr-only">Ciklusidő reszponzív weboldal – laptop és mobil előnézet</h2>
 
-  <main class="main-content">
-    <div class="bg-deco bg-deco-1"></div>
-    <div class="bg-deco bg-deco-2"></div>
-    <div class="divider-line"></div>
-    <h1 class="center-title">Ciklusidő</h1>
-    <p class="center-subtitle">Kövesd nyomon a folyamataidat</p>
-    <div class="divider-line"></div>
-  </main>
+<div class="preview-toggle">
+  <button class="toggle-btn active" id="btn-desktop" onclick="showView('desktop')">
+    <i class="ti ti-device-laptop" aria-hidden="true"></i> Laptop nézet
+  </button>
+  <button class="toggle-btn" id="btn-mobile" onclick="showView('mobile')">
+    <i class="ti ti-device-mobile" aria-hidden="true"></i> Mobil nézet
+  </button>
+</div>
+
+<!-- DESKTOP VIEW -->
+<div id="view-desktop">
+  <div class="page-wrapper">
+    <nav class="sidebar">
+      <div class="sidebar-logo">⬡ Ciklusidő</div>
+      <a class="nav-item active" href="#" onclick="return false;"><i class="ti ti-home" aria-hidden="true"></i><span class="nav-label">Kezdőlap</span></a>
+      <a class="nav-item" href="#" onclick="return false;"><i class="ti ti-chart-bar" aria-hidden="true"></i><span class="nav-label">Áttekintés</span></a>
+      <a class="nav-item" href="#" onclick="return false;"><i class="ti ti-clock" aria-hidden="true"></i><span class="nav-label">Ciklusok</span></a>
+      <a class="nav-item" href="#" onclick="return false;"><i class="ti ti-calendar" aria-hidden="true"></i><span class="nav-label">Naptár</span></a>
+      <a class="nav-item" href="#" onclick="return false;"><i class="ti ti-file" aria-hidden="true"></i><span class="nav-label">Riportok</span></a>
+      <a class="nav-item" href="#" onclick="return false;"><i class="ti ti-settings" aria-hidden="true"></i><span class="nav-label">Beállítások</span></a>
+    </nav>
+    <main class="main-content">
+      <div class="bg-deco bg-deco-1"></div>
+      <div class="bg-deco bg-deco-2"></div>
+      <div class="divider-line"></div>
+      <h1 class="center-title">Ciklusidő</h1>
+      <p class="center-subtitle">Kövesd nyomon a folyamataidat</p>
+      <div class="divider-line"></div>
+    </main>
+  </div>
+</div>
+
+<!-- MOBILE VIEW -->
+<div id="view-mobile" style="display:none;">
+  <div class="mobile-frame" id="mobile-frame" style="display:flex;">
+    <div class="mobile-header">
+      <span class="mobile-logo">⬡ Ciklusidő</span>
+      <i class="ti ti-bell" style="font-size:20px; color:#9B6070;" aria-hidden="true"></i>
+    </div>
+    <div class="mobile-main">
+      <div class="bg-deco bg-deco-1" style="width:200px;height:200px;top:-50px;right:-50px;"></div>
+      <div class="bg-deco bg-deco-2" style="width:130px;height:130px;bottom:-40px;left:20px;"></div>
+      <div class="divider-line"></div>
+      <h1 class="center-title" style="font-size:38px;">Ciklusidő</h1>
+      <p class="center-subtitle" style="font-size:12px;">Kövesd nyomon a folyamataidat</p>
+      <div class="divider-line"></div>
+    </div>
+    <nav class="mobile-bottom-nav" aria-label="Alsó navigáció">
+      <button class="m-nav-item active" onclick="setMobileActive(this)"><i class="ti ti-home" aria-hidden="true"></i>Kezdőlap</button>
+      <button class="m-nav-item" onclick="setMobileActive(this)"><i class="ti ti-chart-bar" aria-hidden="true"></i>Áttekintés</button>
+      <button class="m-nav-item" onclick="setMobileActive(this)"><i class="ti ti-clock" aria-hidden="true"></i>Ciklusok</button>
+      <button class="m-nav-item" onclick="setMobileActive(this)"><i class="ti ti-calendar" aria-hidden="true"></i>Naptár</button>
+      <button class="m-nav-item" onclick="setMobileActive(this)"><i class="ti ti-settings" aria-hidden="true"></i>Beállítások</button>
+    </nav>
+  </div>
 </div>
 
 <script>
+  function showView(view) {
+    document.getElementById('view-desktop').style.display = view === 'desktop' ? 'block' : 'none';
+    document.getElementById('view-mobile').style.display = view === 'mobile' ? 'block' : 'none';
+    document.getElementById('btn-desktop').classList.toggle('active', view === 'desktop');
+    document.getElementById('btn-mobile').classList.toggle('active', view === 'mobile');
+  }
+
+  function setMobileActive(el) {
+    document.querySelectorAll('.m-nav-item').forEach(i => i.classList.remove('active'));
+    el.classList.add('active');
+  }
+
   document.querySelectorAll('.nav-item').forEach(item => {
-    item.addEventListener('click', function(e) {
+    item.addEventListener('click', function() {
       document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
       this.classList.add('active');
     });
