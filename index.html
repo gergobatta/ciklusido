@@ -1,0 +1,175 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Lato:wght@300;400;700&display=swap');
+
+  .page-wrapper {
+    display: flex;
+    min-height: 600px;
+    background: #FADADD;
+    border-radius: 16px;
+    overflow: hidden;
+    font-family: 'Lato', sans-serif;
+    position: relative;
+  }
+
+  .sidebar {
+    width: 220px;
+    min-width: 220px;
+    background: rgba(255,255,255,0.45);
+    backdrop-filter: blur(8px);
+    border-right: 0.5px solid rgba(210,130,140,0.25);
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 0;
+    gap: 4px;
+  }
+
+  .sidebar-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #8B4A55;
+    padding: 0 1.5rem 1.5rem;
+    border-bottom: 0.5px solid rgba(210,130,140,0.2);
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.03em;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 1.5rem;
+    font-size: 14px;
+    font-weight: 400;
+    color: #7A3B47;
+    cursor: pointer;
+    border-radius: 0;
+    transition: background 0.15s, color 0.15s;
+    text-decoration: none;
+    border-left: 2.5px solid transparent;
+  }
+
+  .nav-item:hover {
+    background: rgba(210,130,140,0.15);
+    color: #5C1F2E;
+    border-left-color: #C97080;
+  }
+
+  .nav-item.active {
+    background: rgba(210,130,140,0.22);
+    color: #5C1F2E;
+    font-weight: 700;
+    border-left-color: #B5505F;
+  }
+
+  .nav-item i {
+    font-size: 17px;
+    opacity: 0.8;
+  }
+
+  .main-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .bg-deco {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.18;
+    pointer-events: none;
+  }
+
+  .bg-deco-1 {
+    width: 340px;
+    height: 340px;
+    background: #F4A0AE;
+    top: -80px;
+    right: -60px;
+  }
+
+  .bg-deco-2 {
+    width: 200px;
+    height: 200px;
+    background: #E07080;
+    bottom: -60px;
+    left: 40px;
+  }
+
+  .center-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 52px;
+    font-weight: 600;
+    color: #5C1F2E;
+    text-align: center;
+    letter-spacing: 0.02em;
+    line-height: 1.15;
+    z-index: 1;
+  }
+
+  .center-subtitle {
+    font-size: 14px;
+    color: #9B5A65;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 300;
+    z-index: 1;
+  }
+
+  .divider-line {
+    width: 60px;
+    height: 1.5px;
+    background: linear-gradient(90deg, transparent, #C97080, transparent);
+    z-index: 1;
+  }
+</style>
+
+<h2 class="sr-only">Ciklusidő weboldal előnézet bal oldali navigációval és barackvirág háttérrel</h2>
+
+<div class="page-wrapper">
+  <nav class="sidebar" aria-label="Főmenü">
+    <div class="sidebar-logo">⬡ Ciklusidő</div>
+    <a class="nav-item active" href="#" onclick="return false;">
+      <i class="ti ti-home" aria-hidden="true"></i> Kezdőlap
+    </a>
+    <a class="nav-item" href="#" onclick="return false;">
+      <i class="ti ti-chart-bar" aria-hidden="true"></i> Áttekintés
+    </a>
+    <a class="nav-item" href="#" onclick="return false;">
+      <i class="ti ti-clock" aria-hidden="true"></i> Ciklusok
+    </a>
+    <a class="nav-item" href="#" onclick="return false;">
+      <i class="ti ti-calendar" aria-hidden="true"></i> Naptár
+    </a>
+    <a class="nav-item" href="#" onclick="return false;">
+      <i class="ti ti-file" aria-hidden="true"></i> Riportok
+    </a>
+    <a class="nav-item" href="#" onclick="return false;">
+      <i class="ti ti-settings" aria-hidden="true"></i> Beállítások
+    </a>
+  </nav>
+
+  <main class="main-content">
+    <div class="bg-deco bg-deco-1"></div>
+    <div class="bg-deco bg-deco-2"></div>
+    <div class="divider-line"></div>
+    <h1 class="center-title">Ciklusidő</h1>
+    <p class="center-subtitle">Kövesd nyomon a folyamataidat</p>
+    <div class="divider-line"></div>
+  </main>
+</div>
+
+<script>
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', function(e) {
+      document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+</script>
