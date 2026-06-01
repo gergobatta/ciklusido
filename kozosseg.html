@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ciklusidő – Közösség</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --peach: #FADADD;
+      --peach-mid: #F4B8C0;
+      --rose: #C97080;
+      --rose-dark: #B5505F;
+      --burgundy: #8B4A55;
+      --burgundy-deep: #5C1F2E;
+      --text-muted: #9B5A65;
+      --white-glass: rgba(255,255,255,0.5);
+      --border: rgba(210,130,140,0.25);
+    }
+
+    html, body {
+      min-height: 100%;
+      font-family: 'Lato', sans-serif;
+      background: var(--peach);
+      color: var(--burgundy-deep);
+    }
+
+    /* ── BG DEKOR ── */
+    .bg-blob {
+      position: fixed; border-radius: 50%; opacity: 0.14;
+      pointer-events: none; z-index: 0;
+    }
+    .bg-blob-1 { width: 500px; height: 500px; background: #F4A0AE; top: -150px; right: -100px; }
+    .bg-blob-2 { width: 300px; height: 300px; background: #E07080; bottom: -80px; left: -60px; }
+
+    /* ── PAGE WRAPPER ── */
+    .page-wrapper {
+      display: flex;
+      min-height: 100vh;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: 230px; min-width: 230px;
+      background: var(--white-glass);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-right: 0.5px solid var(--border);
+      display: flex; flex-direction: column;
+      padding: 2rem 0; gap: 4px;
+      position: sticky; top: 0; height: 100vh;
+    }
+
+    .sidebar-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px; font-weight: 600;
+      color: var(--burgundy);
+      padding: 0 1.5rem 1.5rem;
+      border-bottom: 0.5px solid var(--border);
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.03em;
+    }
+
+    .nav-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 11px 1.5rem; font-size: 14px;
+      color: #7A3B47; cursor: pointer;
+      border-left: 2.5px solid transparent;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+      text-decoration: none;
+    }
+    .nav-item:hover { background: rgba(210,130,140,0.15); color: var(--burgundy-deep); border-left-color: var(--rose); }
+    .nav-item.active { background: rgba(210,130,140,0.22); color: var(--burgundy-deep); font-weight: 700; border-left-color: var(--rose-dark); }
+    .nav-item i { font-size: 18px; opacity: 0.85; }
+
+    /* ── MAIN ── */
+    .main-content {
+      flex: 1;
+      padding: 3rem 2.5rem;
+    }
+
+    .page-header { margin-bottom: 2.5rem; }
+
+    .page-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 42px; font-weight: 600;
+      color: var(--burgundy-deep);
+      line-height: 1.15; margin-bottom: 6px;
+    }
+
+    .page-header p {
+      font-size: 14px; color: var(--text-muted);
+      font-weight: 300; letter-spacing: 0.08em;
+    }
+
+    .divider {
+      width: 56px; height: 1.5px;
+      background: linear-gradient(90deg, var(--rose), transparent);
+      margin: 1rem 0 1.5rem;
+    }
+
+    /* ── IG GRID ── */
+    .ig-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      max-width: 2000px;
+    }
+
+    .ig-card {
+      background: rgba(255,255,255,0.65);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 0.5px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .ig-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(140,60,80,0.1);
+    }
+
+    /* Az Instagram embed iframe alapból 100% széles lesz */
+    .ig-card blockquote {
+      margin: 0 !important;
+    }
+
+    /* Placeholder amíg nincs embed kód */
+    .ig-placeholder {
+      aspect-ratio: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: var(--text-muted);
+      font-size: 13px;
+      padding: 2rem;
+      text-align: center;
+      background: rgba(210,130,140,0.06);
+    }
+
+    .ig-placeholder i { font-size: 36px; opacity: 0.4; }
+    .ig-placeholder span { font-style: italic; opacity: 0.7; }
+
+    /* ── MOBILE HEADER ── */
+    .mobile-header { display: none; }
+    .bottom-nav { display: none; }
+
+    @media (max-width: 900px) {
+      .ig-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+      .page-wrapper { flex-direction: column; }
+      .sidebar { display: none; }
+
+      .mobile-header {
+        display: flex;
+        align-items: center; justify-content: space-between;
+        padding: 14px 20px 12px;
+        background: var(--white-glass);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 0.5px solid var(--border);
+        position: sticky; top: 0; z-index: 10;
+      }
+
+      .mobile-header-logo {
+        font-family: 'Playfair Display', serif;
+        font-size: 18px; font-weight: 600; color: var(--burgundy);
+      }
+
+      .mobile-header i { font-size: 22px; color: var(--text-muted); }
+
+      .main-content { padding: 1.5rem 1rem 6rem; }
+      .page-header h1 { font-size: 30px; }
+      .ig-grid { grid-template-columns: 1fr; }
+
+      .bottom-nav {
+        display: flex; justify-content: space-around; align-items: center;
+        background: var(--white-glass);
+        backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+        border-top: 0.5px solid var(--border);
+        padding: 8px 0 max(10px, env(safe-area-inset-bottom));
+        position: fixed; bottom: 0; left: 0; right: 0; z-index: 10;
+      }
+
+      .bottom-nav-item {
+        display: flex; flex-direction: column; align-items: center; gap: 3px;
+        padding: 4px 12px; color: var(--text-muted);
+        font-size: 10px; font-family: 'Lato', sans-serif;
+        background: transparent; border: none; text-decoration: none;
+        transition: color 0.15s; cursor: pointer;
+      }
+
+      .bottom-nav-item.active { color: var(--burgundy-deep); font-weight: 700; }
+      .bottom-nav-item i { font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-blob bg-blob-1" aria-hidden="true"></div>
+  <div class="bg-blob bg-blob-2" aria-hidden="true"></div>
+
+  <header class="mobile-header">
+    <span class="mobile-header-logo">⬡ Ciklusidő</span>
+    <i class="ti ti-brand-instagram" aria-hidden="true"></i>
+  </header>
+
+  <div class="page-wrapper">
+
+    <nav class="sidebar" aria-label="Főmenü">
+      <div class="sidebar-logo">⬡ Ciklusidő</div>
+      <a class="nav-item" href="index.html"><i class="ti ti-home"></i> Kezdőlap</a>
+      <a class="nav-item" href="#"><i class="ti ti-chart-bar"></i> Áttekintés</a>
+      <a class="nav-item" href="#"><i class="ti ti-clock"></i> Ciklusok</a>
+      <a class="nav-item" href="foglalas.html"><i class="ti ti-calendar"></i> Foglalás</a>
+      <a class="nav-item" href="#"><i class="ti ti-file"></i> Riportok</a>
+      <a class="nav-item active" href="#"><i class="ti ti-brand-instagram"></i> Közösség</a>
+      <a class="nav-item" href="#"><i class="ti ti-settings"></i> Beállítások</a>
+    </nav>
+
+    <main class="main-content">
+      <div class="page-header">
+        <h1>Közösség</h1>
+        <div class="divider"></div>
+        <p>@battagerii legfrissebb bejegyzései</p>
+      </div>
+
+      <div class="ig-grid">
+        <behold-widget feed-id="kW2PyfU4QeTEZnVNy8Sr"></behold-widget>
+          <script>
+            (() => {
+              const d=document,s=d.createElement("script");s.type="module";
+              s.src="https://w.behold.so/widget.js";d.head.append(s);
+            })();
+          </script>
+      </div>
+    </main>
+
+  </div>
+
+  <nav class="bottom-nav" aria-label="Alsó navigáció">
+    <a class="bottom-nav-item" href="index.html"><i class="ti ti-home"></i>Kezdőlap</a>
+    <a class="bottom-nav-item" href="#"><i class="ti ti-chart-bar"></i>Áttekintés</a>
+    <a class="bottom-nav-item" href="foglalas.html"><i class="ti ti-calendar"></i>Foglalás</a>
+    <a class="bottom-nav-item active" href="#"><i class="ti ti-brand-instagram"></i>Közösség</a>
+    <a class="bottom-nav-item" href="#"><i class="ti ti-settings"></i>Beállítások</a>
+  </nav>
+
+  <!-- Instagram embed script – kötelező a beágyazáshoz -->
+  <script async src="//www.instagram.com/embed.js"></script>
+
+</body>
+</html>
